@@ -10,8 +10,13 @@ require 'faker'
 
 User.destroy_all
 City.destroy_all
+Gossyp.destroy_all
+Tag.destroy_all
+Like.destroy_all
+PrimaryComment.destroy_all
+SecondaryComment.destroy_all
 
-5.times do
+10.times do
 	city = City.create!(name: Faker::Address.city, zip_code: Faker::Address.zip_code)
 end
 
@@ -22,4 +27,26 @@ end
 	user.save
 end
 
+20.times do
+	gossyp = Gossyp.create!(title: Faker::StarWars.call_squadron, content: Faker::StarWars.wookiee_sentence, user_id: User.ids.sample)
+end
 
+10.times do
+	tag = Tag.create!(title: Faker::StarWars.planet, gossyp_id: Gossyp.ids.sample)
+end
+
+20.times do
+	like = Like.create!(user_id: User.ids.sample, gossyp_id: Gossyp.ids.sample)
+end
+
+10.times do
+	private_message = PrivateMessage.create!(content: Faker::StarWars.quote, sender_id: User.ids.sample, recipient_id: User.ids.sample)
+end
+
+10.times do
+	primary_comment = PrimaryComment.create!(content: Faker::Shakespeare.hamlet_quote, user_id: User.ids.sample, gossyp_id: Gossyp.ids.sample)
+end
+
+10.times do
+	secondary_comment = SecondaryComment.create!(content: Faker::Shakespeare.romeo_and_juliet_quote, user_id: User.ids.sample, primary_comment_id: PrimaryComment.ids.sample)
+end
